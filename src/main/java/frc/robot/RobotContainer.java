@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -26,7 +28,8 @@ public class RobotContainer {
   private final Joystick driver = new Joystick(0);
   private final Joystick dummyJoystick = new Joystick(5);
 
-  
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+
 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -46,6 +49,12 @@ public class RobotContainer {
     boolean openLoop = true;
     s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
 
+
+    autoChooser.addOption("S Then Backwards", new exampleAuto(s_Swerve));
+    autoChooser.addOption("DriveForwardOnly", new DriveForawrdAuto(s_Swerve));
+    SmartDashboard.putData("Auto Selector", autoChooser);
+
+    
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -69,6 +78,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new exampleAuto(s_Swerve);
+    return autoChooser.getSelected();
   }
 }

@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -40,8 +41,8 @@ public class exampleAuto extends SequentialCommandGroup {
         Trajectory tarjectoryPart2 =
             TrajectoryGenerator.generateTrajectory(                
                 new Pose2d(0, 0, new Rotation2d(0)),
-                List.of(new Translation2d(-3, 0.5)), 
-                new Pose2d(-5, 0, new Rotation2d(0)), config);
+                List.of(new Translation2d(-1, 0.5)), 
+                new Pose2d(-2, 0, new Rotation2d(0)), config);
 
         //------------------------The PID Controller for the actual auto------------------------//
         var thetaController =
