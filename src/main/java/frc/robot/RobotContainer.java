@@ -24,6 +24,9 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   /* Controllers */
   private final Joystick driver = new Joystick(0);
+  private final Joystick dummyJoystick = new Joystick(5);
+
+  
 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -56,7 +59,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    //new JoystickButton(driver, XboxController.Button.kA.value).whileHeld(new VisionAlignCommand(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, true, false));
+    new JoystickButton(driver, XboxController.Button.kA.value).whileHeld(new VisionAlignCommand(s_Swerve, dummyJoystick, translationAxis, strafeAxis, rotationAxis, true, true));
   }
 
   /**

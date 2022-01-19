@@ -16,12 +16,12 @@ public class Limelight {
     public static void enableTracking() {
         //rapidly switching CAM Mode causes Limelight to crash, so pick one and keep it
         //camMode.setNumber(0);//tracking vision
-        ledMode.setNumber(3);//LED on
+        //ledMode.setNumber(3);//LED on
     }
 
     public static void disableTracking() {
-        camMode.setNumber(1);//regular camera
-        ledMode.setNumber(1);//LED off
+        //camMode.setNumber(1);//regular camera
+        //ledMode.setNumber(1);//LED off
     }
 
     public static boolean hasTarget() {
