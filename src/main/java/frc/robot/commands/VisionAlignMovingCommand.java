@@ -8,7 +8,7 @@ import frc.robot.Constants;
 import frc.robot.Limelight;
 import frc.robot.subsystems.Swerve;
 
-public class VisionAlignCommand extends CommandBase {
+public class VisionAlignMovingCommand extends CommandBase {
     // option 1 - just p
      private final double kP = 0.0085;//0.000625
      private final double kI = 0.0000;
@@ -34,16 +34,14 @@ public class VisionAlignCommand extends CommandBase {
     private Joystick controller;
     private int translationAxis;
     private int strafeAxis;
-    private int rotationAxis;
 
-    public VisionAlignCommand(Swerve drive, Joystick controller, int translationAxis, int strafeAxis, int rotationAxis, boolean fieldRelative, boolean openLoop) {
+    public VisionAlignMovingCommand(Swerve drive, Joystick controller, int translationAxis, int strafeAxis, int rotationAxis, boolean fieldRelative, boolean openLoop) {
         this.drive = drive;
         addRequirements(drive);
 
         this.controller = controller;
         this.translationAxis = translationAxis;
         this.strafeAxis = strafeAxis;
-        this.rotationAxis = rotationAxis;
         this.fieldRelative = fieldRelative;
         this.openLoop = openLoop;
     }
