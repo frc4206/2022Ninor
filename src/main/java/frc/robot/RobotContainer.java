@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -26,7 +25,6 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   /* Controllers */
   private final Joystick driver = new Joystick(0);
-  private final Joystick dummyJoystick = new Joystick(5);
 
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
@@ -40,7 +38,7 @@ public class RobotContainer {
   private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
 
   /* Subsystems */
-  private final Swerve s_Swerve = new Swerve();
+  private final SwerveSubsystem s_Swerve = new SwerveSubsystem();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -52,19 +50,18 @@ public class RobotContainer {
 
     autoChooser.addOption("S Then Backwards", new exampleAuto(s_Swerve));
     autoChooser.addOption("DriveForwardOnly", new DriveForawrdAuto(s_Swerve));
+    autoChooser.addOption("TwoBallRightForward", new TwoBallRightForwardAuto(s_Swerve));
+    autoChooser.addOption("ThreeBallRight", new ThreeBallRightAuto(s_Swerve));
+    autoChooser.addOption("BackupAndShoot", new BackupAndShootAuto(s_Swerve));
+    autoChooser.addOption("TwoBallLeft", new TwoBallLeftAuto(s_Swerve));
     SmartDashboard.putData("Auto Selector", autoChooser);
-
+    
     
     // Configure the button bindings
     configureButtonBindings();
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
+
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));

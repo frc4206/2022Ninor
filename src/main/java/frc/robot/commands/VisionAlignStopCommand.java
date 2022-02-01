@@ -9,11 +9,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants;
 import frc.robot.Limelight;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class VisionAlignStopCommand extends CommandBase {
     // option 1 - just p
-    private final double kP = 0.0085;//0.000625
+    private final double kP = 0.01;//0.0085
     private final double kI = 0.0000;
     private final double kD = 0.00;
 
@@ -28,14 +28,14 @@ public class VisionAlignStopCommand extends CommandBase {
    //private final double kD = 0.00005;
 
    private final PIDController pid = new PIDController(kP, kI, kD);
-   private final Swerve drive;
+   private final SwerveSubsystem drive;
    private Translation2d translation;
    private boolean fieldRelative;
    private boolean openLoop;
    private double rotation;
 
 
-   public VisionAlignStopCommand(Swerve drive, boolean fieldRelative, boolean openLoop) {
+   public VisionAlignStopCommand(SwerveSubsystem drive, boolean fieldRelative, boolean openLoop) {
        this.drive = drive;
        addRequirements(drive);
 
@@ -60,8 +60,6 @@ public class VisionAlignStopCommand extends CommandBase {
        double xAxis = 0;
        double rAxis = pid.calculate(getError(), 0);
      
-       yAxis = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : yAxis;
-       xAxis = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : xAxis;
        translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
 
 

@@ -9,19 +9,22 @@ public class Limelight {
     private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     private static NetworkTableEntry camMode = table.getEntry("camMode");
     private static NetworkTableEntry ledMode = table.getEntry("ledMode");
+    private static NetworkTableEntry Pipeline = table.getEntry("pipeline");
+    private static NetworkTableEntry streaml = table.getEntry("stream");
     public NetworkTableEntry horizontalOffset = table.getEntry("tx");
-
 
     
     public static void enableTracking() {
         //rapidly switching CAM Mode causes Limelight to crash, so pick one and keep it
-        //camMode.setNumber(0);//tracking vision
-        //ledMode.setNumber(3);//LED on
+        camMode.setNumber(0);//tracking vision
+        ledMode.setNumber(3);//LED on
+        streaml.setNumber(1);
     }
 
     public static void disableTracking() {
-        //camMode.setNumber(1);//regular camera
-        //ledMode.setNumber(1);//LED off
+        camMode.setNumber(1);//regular camera
+        ledMode.setNumber(1);//LED off
+        streaml.setNumber(1);
     }
 
     public static boolean hasTarget() {

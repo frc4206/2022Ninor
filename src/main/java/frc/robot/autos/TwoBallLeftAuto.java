@@ -6,6 +6,7 @@ package frc.robot.autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.commands.VisionAlignStopCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import java.util.List;
 import edu.wpi.first.math.controller.PIDController;
@@ -16,14 +17,15 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveForawrdAuto extends SequentialCommandGroup {
-  public DriveForawrdAuto(SwerveSubsystem s_Swerve){
+public class TwoBallLeftAuto extends SequentialCommandGroup {
+  public TwoBallLeftAuto(SwerveSubsystem s_Swerve){
       TrajectoryConfig config =
           new TrajectoryConfig(
                   Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -37,16 +39,26 @@ public class DriveForawrdAuto extends SequentialCommandGroup {
               // Start at the origin facing the +X direction
               new Pose2d(0, 0, new Rotation2d(0)),
               // Pass through these two interior waypoints, making an 's' curve path
-              List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
+              List.of(new Translation2d(Units.inchesToMeters(-25), Units.inchesToMeters(11)), new Translation2d(Units.inchesToMeters(-46), Units.inchesToMeters(22))),
               // End 3 meters straight ahead of where we started, facing forward
-              new Pose2d(3, 0, new Rotation2d(0)),
+              new Pose2d( Units.inchesToMeters(-62), Units.inchesToMeters(30), new Rotation2d(Units.degreesToRadians(-180))),
               config);
+
+              Trajectory tarjectoryPart2 =
+              TrajectoryGenerator.generateTrajectory(
+                  // Start at the origin facing the +X direction
+                  new Pose2d(Units.inchesToMeters(-62), Units.inchesToMeters(30), new Rotation2d(Units.degreesToRadians(180))),
+                  // Pass through these two interior waypoints, making an 's' curve path
+                  List.of(new Translation2d(Units.inchesToMeters(-70), Units.inchesToMeters(30)), new Translation2d(Units.inchesToMeters(-60), Units.inchesToMeters(30))),
+                  // End 3 meters straight ahead of where we started, facing forward
+                  new Pose2d( Units.inchesToMeters(-62), Units.inchesToMeters(30), new Rotation2d(Units.degreesToRadians(-30))),
+                  config);
 
 
       //------------------------The PID Controller for the actual auto------------------------//
       var thetaController =
           new ProfiledPIDController(
-              Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+              4, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
       thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
 
@@ -62,6 +74,17 @@ public class DriveForawrdAuto extends SequentialCommandGroup {
               s_Swerve::setModuleStates,
               s_Swerve);       
 
+      SwerveControllerCommand drivingPart2 =
+          new SwerveControllerCommand(
+              tarjectoryPart2,
+              s_Swerve::getPose,
+              Constants.Swerve.swerveKinematics,
+              new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+              new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+              thetaController,
+              s_Swerve::setModuleStates,
+              s_Swerve);     
+
 
       //---------------------The Actual Command List That will Run-----------------//
 
@@ -70,8 +93,13 @@ public class DriveForawrdAuto extends SequentialCommandGroup {
           //resets odemetry
           new InstantCommand(() -> s_Swerve.resetOdometry(tarjectoryPart1.getInitialPose())),
 
-          //path part 1
-          drivingPart1
+          //drives to ball and spins
+          drivingPart1,
+
+          //turns around
+          drivingPart2,
+
+          new VisionAlignStopCommand(s_Swerve, true, true)
 
       );
   }

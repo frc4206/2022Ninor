@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Limelight;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class VisionAlignMovingCommand extends CommandBase {
     // option 1 - just p
@@ -25,7 +25,7 @@ public class VisionAlignMovingCommand extends CommandBase {
     //private final double kD = 0.00005;
 
     private final PIDController pid = new PIDController(kP, kI, kD);
-    private final Swerve drive;
+    private final SwerveSubsystem drive;
     private Translation2d translation;
     private boolean fieldRelative;
     private boolean openLoop;
@@ -35,7 +35,7 @@ public class VisionAlignMovingCommand extends CommandBase {
     private int translationAxis;
     private int strafeAxis;
 
-    public VisionAlignMovingCommand(Swerve drive, Joystick controller, int translationAxis, int strafeAxis, int rotationAxis, boolean fieldRelative, boolean openLoop) {
+    public VisionAlignMovingCommand(SwerveSubsystem drive, Joystick controller, int translationAxis, int strafeAxis, int rotationAxis, boolean fieldRelative, boolean openLoop) {
         this.drive = drive;
         addRequirements(drive);
 
