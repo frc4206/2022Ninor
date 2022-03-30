@@ -39,7 +39,9 @@ public final class Constants {
 
         //reggie
         public static final int harvestorSolenoidFWD = 10;
-        public static final int harvestorSolenoidBKWD = 11; 
+        public static final int harvestorSolenoidBKWD = 11;
+        public static final int hoodSolenoidFWD = 1;
+        public static final int hoodSolenoidBKWD = 2 ;
     }
 
     public final class MotorValues{

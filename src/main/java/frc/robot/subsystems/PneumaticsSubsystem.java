@@ -20,7 +20,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
   private DoubleSolenoid climberDSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.Pneumatics.climberSolenoidFWD, Constants.Pneumatics.climberSolenoidBKWD);
   private DoubleSolenoid harvestorDSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.Pneumatics.harvestorSolenoidFWD, Constants.Pneumatics.harvestorSolenoidBKWD);
   private DoubleSolenoid pancakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.Pneumatics.pancakeSolenoidFWD, Constants.Pneumatics.pancakeSolenoidBKWD);
-  private Solenoid shooterHoodSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 2);
+  private DoubleSolenoid HoodDSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.hoodSolenoidFWD, Constants.Pneumatics.hoodSolenoidBKWD );
 
   //adds the sensors that we may use
   //private AnalogInput pneumaticPressureSensor = new AnalogInput(Constants.Pneumatics.pneumaticPressureSensor);
@@ -51,6 +51,20 @@ public class PneumaticsSubsystem extends SubsystemBase {
         harvestorDSolenoid.set(DoubleSolenoid.Value.kForward);
         break;
     }
+  }
+  public void HoodShifter(){
+    switch (HoodDSolenoid.get()){
+      case kOff:
+        HoodDSolenoid.set(DoubleSolenoid.Value.kForward);
+       break;
+      case kForward:
+        HoodDSolenoid.set(DoubleSolenoid.Value.kReverse);
+       break;
+      case kReverse:
+        HoodDSolenoid.set(DoubleSolenoid.Value.kForward);
+        break;
+    }
+    
   }
 
   public void GroundFeederOut(){
