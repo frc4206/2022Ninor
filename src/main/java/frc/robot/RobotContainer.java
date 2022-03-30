@@ -6,14 +6,34 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.lib.util.AxisTrigger;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
+import frc.robot.commands.climber.AngleClimbCommand;
+import frc.robot.commands.climber.ClimberDownManualCommand;
+import frc.robot.commands.climber.ClimberUpManualCommand;
+import frc.robot.commands.climber.ClimberInitEncCommand;
+import frc.robot.commands.climber.ClimberPositionCommand;
+import frc.robot.commands.climber.PancakeInCommand;
+import frc.robot.commands.climber.PancakeOutCommand;
+import frc.robot.commands.conveyor.ConveyorAutoCommand;
+import frc.robot.commands.conveyor.ConveyorBackwardCommand;
+import frc.robot.commands.conveyor.ConveyorForwardCommand;
+import frc.robot.commands.harvestor.HarvestorInAndOutCommand;
+import frc.robot.commands.harvestor.HarvestorInCommand;
+import frc.robot.commands.harvestor.HarvestorOutCommand;
+import frc.robot.commands.harvestor.HarvestorReverseCommand;
+import frc.robot.commands.harvestor.HarvestorStopCommand;
+import frc.robot.commands.shooter.ShooterStopCommand;
+import frc.robot.commands.shooter.ShooterWallHubCommand;
+import frc.robot.commands.shooter.ShooterXSpotCommand;
 import frc.robot.subsystems.*;
 
 /**
@@ -25,6 +45,8 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   /* Controllers */
   private final Joystick driver = new Joystick(0);
+  private final Joystick operator = new Joystick(1);
+
 
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
@@ -35,25 +57,35 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
+  private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kX.value);
 
   /* Subsystems */
-  private final SwerveSubsystem s_Swerve = new SwerveSubsystem();
+  private final SwerveSubsystem swerve = new SwerveSubsystem();
+  private final ClimberSubsystem motors = new ClimberSubsystem();
+  private final PneumaticsSubsystem pneumatics = new PneumaticsSubsystem();
+  private final HarvestorSubsystem harvestor = new HarvestorSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
+
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
     boolean openLoop = true;
-    s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
+    swerve.setDefaultCommand(new TeleopSwerve(swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
 
-
-    autoChooser.addOption("S Then Backwards", new exampleAuto(s_Swerve));
-    autoChooser.addOption("DriveForwardOnly", new DriveForawrdAuto(s_Swerve));
-    autoChooser.addOption("TwoBallRightForward", new TwoBallRightForwardAuto(s_Swerve));
-    autoChooser.addOption("ThreeBallRight", new ThreeBallRightAuto(s_Swerve));
-    autoChooser.addOption("BackupAndShoot", new BackupAndShootAuto(s_Swerve));
-    autoChooser.addOption("TwoBallLeft", new TwoBallLeftAuto(s_Swerve));
+    //makes the smartdashboard f0r auto commands
+    //autoChooser.addOption("S Then Backwards", new exampleAuto(swerve));
+    //autoChooser.addOption("DriveForwardOnly", new DriveForawrdAuto(swerve));
+    //autoChooser.addOption("TwoBallRightForward", new TwoBallRightForwardAuto(swerve));
+    //autoChooser.addOption("ThreeBallTerminal", new ThreeBallTearminalAuto(swerve, harvestor, conveyor, shooter, pneumatics));
+    //autoChooser.addOption("ThreeBallHub", new ThreeBallHubAuto(swerve, harvestor, conveyor, shooter, pneumatics));
+    //autoChooser.addOption("Kevins5Ball", new Kevins4BallAuto(swerve, harvestor, conveyor, shooter, pneumatics));
+    //autoChooser.addOption("Kevins4BallFar", new Kevins4BallFarAuto(swerve, harvestor, conveyor, shooter, pneumatics));
+    //autoChooser.addOption("Origanal4Ball", new Origanal4BallAuto(swerve, harvestor, conveyor, shooter, pneumatics));
+    //autoChooser.addOption("BackupAndShoot", new BackupAndShootAuto(swerve, harvestor, conveyor, shooter, pneumatics));
+    //autoChooser.addOption("TwoBallLeft", new TwoBallLeftAuto(swerve, harvestor, conveyor, shooter, pneumatics));
     SmartDashboard.putData("Auto Selector", autoChooser);
     
     
@@ -63,20 +95,80 @@ public class RobotContainer {
 
 
   private void configureButtonBindings() {
-    /* Driver Buttons */
-    zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    new JoystickButton(driver, XboxController.Button.kA.value).whileHeld(new VisionAlignMovingCommand(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, true, true));
-    new JoystickButton(driver, XboxController.Button.kB.value).whileHeld(new VisionAlignStopCommand(s_Swerve, true, true));
+    //-----------------------Driver Buttons----------------------------------------------/
+    zeroGyro.whenPressed(new InstantCommand(() -> swerve.zeroGyro()));
+    new JoystickButton(driver, XboxController.Button.kA.value).whileHeld(new VisionAlignMovingCommand(swerve, driver, translationAxis, strafeAxis, rotationAxis, true, true));
+    new JoystickButton(driver, XboxController.Button.kB.value).whileHeld(new TeleopSwerve(swerve, driver, translationAxis, strafeAxis, rotationAxis, false, true));
 
+
+
+
+    //-----------------------Shooter Buttons----------------------------------------------/
+    new JoystickButton(driver, Button.kRightBumper.value).whenPressed(new ShooterXSpotCommand(shooter));
+    new JoystickButton(driver, Button.kLeftBumper.value).whenPressed(new ShooterWallHubCommand(shooter));
+    new AxisTrigger(driver, 3).whenPressed(new ShooterStopCommand(shooter));
+    new AxisTrigger(driver, 2).whenPressed(new ShooterStopCommand(shooter));
+
+
+
+
+    //-----------------------Climbing Buttons----------------------------------------------/
+    //more specific button combinations for complex programs
+    //new JoystickButton(operator, Button.kY.value).whenPressed(new AutoClimbCommand(pneumatics, motors));
+    //new JoystickButton(operator, Button.kB.value).whenPressed(new ClimberMotorUpCommand(motors));
+    //new JoystickButton(operator, Button.kA.value).whenPressed(new ClimberMotorDownCommand(motors));
+    //new JoystickButton(operator, Button.kX.value).whenPressed(new ClimberMotorStopCommand(motors));
+
+    //basic up and down movement that is manual buttons, run by co-driver
+    new JoystickButton(operator, Button.kY.value).whileHeld(new ClimberDownManualCommand(motors, pneumatics));
+    new JoystickButton(operator, Button.kRightStick.value).whileHeld(new ClimberUpManualCommand(motors, pneumatics));
+    new JoystickButton(operator, Button.kStart.value).whenPressed(new PancakeInCommand(pneumatics));
+    new JoystickButton(operator, Button.kBack.value).whenPressed(new PancakeOutCommand(pneumatics));
+
+    //----------------------Test Auto Climb Buttons--------------------------------------------/
+    //new JoystickButton(operator, Button.kA.value).whenPressed(new ClimberPositionCommand(motors, 83000));//165000, 93000, 89000,78000L
+    //new JoystickButton(operator, Button.kB.value).whenPressed(new ClimberPositionCommand(motors, -650.0));
+    //new JoystickButton(operator, Button.kY.value).whenPressed(new ClimberInitEncCommand(motors));
+  
+    //driver gets the pison command for n000ow 
+    new JoystickButton(driver, Button.kBack.value).whenPressed(new AngleClimbCommand(pneumatics));
+
+
+
+    //-----------------------Harvestor Buttons----------------------------------------------/
+    new AxisTrigger(operator, 2).whileHeld(new HarvestorOutCommand(harvestor, pneumatics));
+    new AxisTrigger(operator, 3).whenPressed(new HarvestorInCommand(harvestor, pneumatics));
+    new JoystickButton(operator, Button.kLeftBumper.value).whenPressed(new HarvestorStopCommand(harvestor));
+
+    new JoystickButton(operator, Button.kRightBumper.value).whileHeld(new HarvestorReverseCommand(harvestor));
+    
+
+
+    //-----------------------Conveyor Buttons----------------------------------------------/
+    new JoystickButton(operator, Button.kA.value).whileHeld(new ConveyorForwardCommand(conveyor));
+    new JoystickButton(operator, Button.kB.value).whileHeld(new ConveyorBackwardCommand(conveyor));
+    new JoystickButton(operator, Button.kY.value).whenPressed(new ConveyorAutoCommand(conveyor));
+
+
+    //in case or driver wanting to shoot
+    new JoystickButton(driver, Button.kY.value).whileHeld(new ConveyorForwardCommand(conveyor));  
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
+
+  public void setRumble(){
+
+    driver.setRumble(RumbleType.kLeftRumble, 1);
+    driver.setRumble(RumbleType.kRightRumble, 1);
+  }
+
+  public void offRumble(){
+    driver.setRumble(RumbleType.kLeftRumble, 0);
+    driver.setRumble(RumbleType.kRightRumble, 0);
+  }
+
+
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    //goes to the auto chooser selction
     return autoChooser.getSelected();
   }
 }

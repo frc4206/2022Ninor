@@ -2,45 +2,39 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.climber;
+package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.PneumaticsSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class ClimberUpManualCommand extends CommandBase {
-  private final ClimberSubsystem m_subsystem;
-  private final PneumaticsSubsystem pnuematics;
-  private boolean isFinished;
+public class ShooterXSpotCommand extends CommandBase {
+  private final ShooterSubsystem motors;
   /** Creates a new Com_Motors. */
-  public ClimberUpManualCommand(ClimberSubsystem subsystem, PneumaticsSubsystem pneumatic) {
+  public ShooterXSpotCommand(ShooterSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_subsystem = subsystem;
-    pnuematics = pneumatic;
-    addRequirements(m_subsystem);
+    motors = subsystem;
+    addRequirements(motors);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.initialize_enconders();
+    motors.shooterSetPowerXSpot();
+    motors.shooterXSpotHub();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_subsystem.climber_up();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_subsystem.climber_stop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -7,6 +7,13 @@ package frc.robot.autos;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.VisionAlignStopCommand;
+import frc.robot.commands.conveyor.ConveyorForwardCommand;
+import frc.robot.commands.harvestor.HarvestorOutCommand;
+import frc.robot.commands.shooter.ShooterXSpotCommand;
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.HarvestorSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import java.util.List;
 import edu.wpi.first.math.controller.PIDController;
@@ -19,13 +26,15 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ThreeBallRightAuto extends SequentialCommandGroup {
-  public ThreeBallRightAuto(SwerveSubsystem s_Swerve){
+public class ThreeBallTearminalAuto extends SequentialCommandGroup {
+  public ThreeBallTearminalAuto(SwerveSubsystem s_Swerve, HarvestorSubsystem m_harvestor, ConveyorSubsystem m_conveyor, ShooterSubsystem m_shooter, PneumaticsSubsystem m_pneumatics){
     TrajectoryConfig config =
         new TrajectoryConfig(
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -153,19 +162,46 @@ public class ThreeBallRightAuto extends SequentialCommandGroup {
         new InstantCommand(() -> s_Swerve.resetOdometry(tarjectoryPart1.getInitialPose())),
 
         //go to first ball
-        drivingPart1,
+        new ParallelRaceGroup(
+            drivingPart1,
+            new HarvestorOutCommand(m_harvestor, m_pneumatics).withTimeout(2)
+        ),
 
         //go back near ball 2 and spin
-        drivingPart2,
+        //new ParallelCommandGroup(
+
+            new ParallelCommandGroup(
+                drivingPart2,
+               new ShooterXSpotCommand(m_shooter).withTimeout(1.5)
+            ),
+            
+            //new ConveyorForwardCommand(m_conveyor).withTimeout(1)
+        //),
         
         //align to shoot 
-        new VisionAlignStopCommand(s_Swerve, true, true).withTimeout(2),
+        new VisionAlignStopCommand(s_Swerve, true, true).withTimeout(0.5),
+
+        new ParallelCommandGroup(
+            new ShooterXSpotCommand(m_shooter).withTimeout(1.5),
+            new ConveyorForwardCommand(m_conveyor).withTimeout(1.5),
+            new VisionAlignStopCommand(s_Swerve, true, true).withTimeout(1.5)
+        ),
 
         //pickup ball three
-        drivingPart3,
+        new ParallelCommandGroup(
+            drivingPart3,
+            new HarvestorOutCommand(m_harvestor, m_pneumatics).withTimeout(0.5)
+
+        ),
 
         //align to shoot again
-        new VisionAlignStopCommand(s_Swerve, true, true).withTimeout(2),
+        new VisionAlignStopCommand(s_Swerve, true, true).withTimeout(0.5),
+
+        new ParallelCommandGroup(
+            new ShooterXSpotCommand(m_shooter).withTimeout(1.5),
+            new ConveyorForwardCommand(m_conveyor).withTimeout(1.5),
+            new VisionAlignStopCommand(s_Swerve, true, true).withTimeout(1.5)
+        ),
 
         //go to terminal
         drivingPart4,

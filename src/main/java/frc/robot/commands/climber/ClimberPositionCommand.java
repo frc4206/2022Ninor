@@ -6,39 +6,40 @@ package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.PneumaticsSubsystem;
 
-public class ClimberDownManualCommand extends CommandBase {
-  private final ClimberSubsystem m_subsystem;
-  private final PneumaticsSubsystem pneumatics;
+public class ClimberPositionCommand extends CommandBase {
+  private final ClimberSubsystem motors;
+  private double position;
   private boolean isFinished;
   /** Creates a new Com_Motors. */
-  public ClimberDownManualCommand(ClimberSubsystem subsystem, PneumaticsSubsystem pneumatic) {
+  public ClimberPositionCommand(ClimberSubsystem subsystem, double pos) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_subsystem = subsystem;
-    pneumatics = pneumatic;
-    addRequirements(m_subsystem);
+    motors = subsystem;
+    position = pos;
+    addRequirements(motors);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    isFinished = true;
+    motors.goTo(position);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.climber_down();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.climber_stop();
+    isFinished = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }
