@@ -1,10 +1,9 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU;
-
 import frc.robot.SwerveModule;
 import frc.robot.Constants;
-
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -18,10 +17,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
-    public PigeonIMU gyro;
+    public Pigeon2 gyro;
 
     public Swerve() {
-        gyro = new PigeonIMU(Constants.Swerve.pigeonID);
+<<<<<<< HEAD
+        gyro = new Pigeon2(30);
+=======
+        gyro = new Pigeon2(Constants.Swerve.pigeonID);
+>>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
         gyro.configFactoryDefault();
         zeroGyro();
         

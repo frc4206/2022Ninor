@@ -23,7 +23,15 @@ public class Robot extends TimedRobot {
   public static CTREConfigs ctreConfigs;
   private Command m_autonomousCommand;
   private HttpCamera limelightFeed;
-  private RobotContainer m_robotContainer;
+  private static RobotContainer m_robotContainer;
+
+  public static RobotContainer getRobotContainer() {
+    return m_robotContainer;
+  }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -36,7 +44,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     limelightFeed = new HttpCamera("limelight", "http://limelight.local:5801/stream.mjpg");
-    Shuffleboard.getTab("Camera").add("LL", limelightFeed).withPosition(0, 0).withSize(15, 8).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
+    Shuffleboard.getTab("Camera").add("LL", limelightFeed).withPosition(0, 0).withSize(5, 5).withProperties(Map.of("Show Crosshair", false, "Show Controls", false));
   }
 
   /**

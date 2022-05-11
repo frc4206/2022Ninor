@@ -6,25 +6,38 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.GlobalVariables;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+=======
+import frc.robot.GlobalVariables;
+import frc.robot.Constants.Pneumatics;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
+>>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 
 public class PneumaticsSubsystem extends SubsystemBase {
 
-
   //needs the pistons for the harvestor and climber
-  private DoubleSolenoid climberDSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.climberSolenoidFWD, Constants.Pneumatics.climberSolenoidBKWD);
-  private DoubleSolenoid harvestorDSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.harvestorSolenoidFWD, Constants.Pneumatics.harvestorSolenoidBKWD);
+  private DoubleSolenoid climberDSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.Pneumatics.climberSolenoidFWD, Constants.Pneumatics.climberSolenoidBKWD);
+  private DoubleSolenoid harvestorDSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.Pneumatics.harvestorSolenoidFWD, Constants.Pneumatics.harvestorSolenoidBKWD);
+<<<<<<< HEAD
+  private DoubleSolenoid pancakeSolonoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.Pneumatics.pankakeSolonoidFWD, Constants.Pneumatics.pankakeSolonoidBKWD);
+
+=======
+  private DoubleSolenoid pancakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.Pneumatics.pancakeSolenoidFWD, Constants.Pneumatics.pancakeSolenoidBKWD);
+  private DoubleSolenoid HoodDSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Pneumatics.hoodSolenoidFWD, Constants.Pneumatics.hoodSolenoidBKWD );
+>>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 
   //adds the sensors that we may use
   //private AnalogInput pneumaticPressureSensor = new AnalogInput(Constants.Pneumatics.pneumaticPressureSensor);
-  private Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
+  //private Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
   
   public PneumaticsSubsystem() {
-    //compressor.enableDigital();
+    compressor.enableDigital();
   }
 
   public void dblSolenoid(DoubleSolenoid.Value direction) {
@@ -35,7 +48,6 @@ public class PneumaticsSubsystem extends SubsystemBase {
   public String dblSolenoid_status(){
     return climberDSolenoid.get().toString();
   }
-
 
   public void GroundFeederShifter(){
     switch (harvestorDSolenoid.get()){
@@ -49,21 +61,48 @@ public class PneumaticsSubsystem extends SubsystemBase {
         harvestorDSolenoid.set(DoubleSolenoid.Value.kForward);
         break;
     }
+<<<<<<< HEAD
+=======
+  }
+  public void HoodShifter(){
+    switch (HoodDSolenoid.get()){
+      case kOff:
+        HoodDSolenoid.set(DoubleSolenoid.Value.kForward);
+       break;
+      case kForward:
+        HoodDSolenoid.set(DoubleSolenoid.Value.kReverse);
+       break;
+      case kReverse:
+        HoodDSolenoid.set(DoubleSolenoid.Value.kForward);
+        break;
+    }
     
+>>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
   }
 
   public void GroundFeederOut(){
-
     harvestorDSolenoid.set(DoubleSolenoid.Value.kForward);
-    
   }
 
   public void GroundFeederIn(){
-
     harvestorDSolenoid.set(DoubleSolenoid.Value.kReverse);
-    
   }
 
+  public void PancakeOut(){
+<<<<<<< HEAD
+    pancakeSolonoid.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void PancakeIn(){
+    pancakeSolonoid.set(DoubleSolenoid.Value.kReverse);
+=======
+    pancakeSolenoid.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void PancakeIn(){
+    pancakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+>>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
+  }
 
 
   @Override
