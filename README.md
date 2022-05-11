@@ -29,6 +29,6 @@ The following things must be adjusted to your robot and module's specific consta
 
 **Controller Mappings**
 ----
-This code is natively setup to use a xbox controller to control the swerve driver. </br>
+This code is natively setup to use a xbox controller to control the swerve driver and operator. </br>
 The Left Stick controls translation (forwards and sideways movement), and the Right Stick controls rotation. </br>
-The X button is mapped to zero the gyro, useful if the gyro drifts mid match, just rotate the robot forwards, and press Y to rezero.
+The X button is mapped to zero the gyro, useful if the gyro drifts mid match, just rotate the robot forwards, and press X to rezero.
