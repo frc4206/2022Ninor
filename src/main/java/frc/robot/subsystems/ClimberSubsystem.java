@@ -5,14 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-<<<<<<< HEAD
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-=======
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
+
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -24,9 +21,10 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 public class ClimberSubsystem extends SubsystemBase {
-  private WPI_TalonFX falconMotorR = new WPI_TalonFX(Constants.MotorsIDs.climberfalconMotorR, Constants.Canivore1);
-  private WPI_TalonFX falconMotorL = new WPI_TalonFX(Constants.MotorsIDs.climberfalconMotorL, Constants.Canivore1);
+  private WPI_TalonFX falconMotorR = new WPI_TalonFX(Constants.MotorsIDs.climberfalconMotorR);
+  private WPI_TalonFX falconMotorL = new WPI_TalonFX(Constants.MotorsIDs.climberfalconMotorL);
   private DigitalInput Limitswitch = new DigitalInput(9);
+  
 
   /** Creates a new Subsys_Motors. */
   public ClimberSubsystem() {
@@ -86,18 +84,8 @@ falconMotorR.setNeutralMode(NeutralMode.Brake);
 falconMotorL.setNeutralMode(NeutralMode.Brake);
 falconMotorR.follow(falconMotorL);
 
-<<<<<<< HEAD
-falconMotorL.setStatusFramePeriod(1, 20);
-falconMotorR.setStatusFramePeriod(1, 20);
-
-//                                                                       enabled | Limit(amp) | Trigger Threshold(amp) | Trigger Threshold Time(s)  
-falconMotorL.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,      85,                90,                1.0));
-falconMotorR.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,      85,                90,                1.0));
-
-=======
 falconMotorL.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 50, 55, 1.0));
 falconMotorR.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 50, 55, 1.0));
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 }
 
   public void climber_up() {
@@ -198,16 +186,10 @@ falconMotorR.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-<<<<<<< HEAD
-    // GlobalVariables.climberLeftEncoder = falconMotorL.getSelectedSensorPosition();
-    // GlobalVariables.climberRightEncoder = falconMotorR.getSelectedSensorPosition();
-    // GlobalVariables.Limitswitch = Limitswitch.get();
-=======
     GlobalVariables.climberLeftEncoder = falconMotorL.getSelectedSensorPosition();
     GlobalVariables.climberRightEncoder = falconMotorR.getSelectedSensorPosition();
     GlobalVariables.Limitswitch = Limitswitch.get();
     SmartDashboard.putString("Climber Left Encoder", falconMotorL.getSelectedSensorPosition()+"");
 
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
   }
 }

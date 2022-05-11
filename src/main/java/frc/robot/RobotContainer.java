@@ -19,33 +19,20 @@ import frc.robot.commands.*;
 import frc.robot.commands.climber.AngleClimbCommand;
 import frc.robot.commands.climber.ClimberDownManualCommand;
 import frc.robot.commands.climber.ClimberUpManualCommand;
-<<<<<<< HEAD
-=======
 import frc.robot.commands.climber.ClimberInitEncCommand;
 import frc.robot.commands.climber.ClimberPositionCommand;
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 import frc.robot.commands.climber.PancakeInCommand;
 import frc.robot.commands.climber.PancakeOutCommand;
 import frc.robot.commands.conveyor.ConveyorAutoCommand;
 import frc.robot.commands.conveyor.ConveyorBackwardCommand;
 import frc.robot.commands.conveyor.ConveyorForwardCommand;
-<<<<<<< HEAD
-=======
 import frc.robot.commands.harvestor.HarvestorInAndOutCommand;
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 import frc.robot.commands.harvestor.HarvestorInCommand;
 import frc.robot.commands.harvestor.HarvestorOutCommand;
 import frc.robot.commands.harvestor.HarvestorReverseCommand;
 import frc.robot.commands.harvestor.HarvestorStopCommand;
-<<<<<<< HEAD
-import frc.robot.commands.shooter.ShooterHubLowerCommand;
 import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.robot.commands.shooter.ShooterWallHubCommand;
-import frc.robot.commands.shooter.ShooterWallHubPlusCommand;
-=======
-import frc.robot.commands.shooter.ShooterStopCommand;
-import frc.robot.commands.shooter.ShooterWallHubCommand;
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 import frc.robot.commands.shooter.ShooterXSpotCommand;
 import frc.robot.subsystems.*;
 
@@ -93,25 +80,12 @@ public class RobotContainer {
     //autoChooser.addOption("DriveForwardOnly", new DriveForawrdAuto(swerve));
     //autoChooser.addOption("TwoBallRightForward", new TwoBallRightForwardAuto(swerve));
     //autoChooser.addOption("ThreeBallTerminal", new ThreeBallTearminalAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-<<<<<<< HEAD
-    autoChooser.addOption("ThreeBallHub", new ThreeBallHubAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-    autoChooser.addOption("Kevins3to5BallFTWorth", new Kevins3to5BallOriganalAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-    autoChooser.addOption("Kevins3to5BallShortEnd", new Kevins3to5BallShortEndAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-    autoChooser.addOption("Andrews3to5BallShortAll", new Andrews3to5BallShortAllAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-    autoChooser.addOption("Andrews4Ball", new Andrews4BallShortAllAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-    autoChooser.addOption("Kevins3to5BallShortAll", new Kevins3to5BallShortAllAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-    autoChooser.addOption("BackupAndShoot", new BackupAndShootAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-    autoChooser.addOption("TwoBallLeft", new TwoBallLeftAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-    autoChooser.addOption("TwoBallLeftUpgrade", new TwoBallLeftUpgradeAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-    autoChooser.addOption("TwoBallLeftKick", new TwoBallLeftKickAuto(swerve, harvestor, conveyor, shooter, pneumatics));
-=======
     //autoChooser.addOption("ThreeBallHub", new ThreeBallHubAuto(swerve, harvestor, conveyor, shooter, pneumatics));
     //autoChooser.addOption("Kevins5Ball", new Kevins4BallAuto(swerve, harvestor, conveyor, shooter, pneumatics));
     //autoChooser.addOption("Kevins4BallFar", new Kevins4BallFarAuto(swerve, harvestor, conveyor, shooter, pneumatics));
     //autoChooser.addOption("Origanal4Ball", new Origanal4BallAuto(swerve, harvestor, conveyor, shooter, pneumatics));
     //autoChooser.addOption("BackupAndShoot", new BackupAndShootAuto(swerve, harvestor, conveyor, shooter, pneumatics));
     //autoChooser.addOption("TwoBallLeft", new TwoBallLeftAuto(swerve, harvestor, conveyor, shooter, pneumatics));
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
     SmartDashboard.putData("Auto Selector", autoChooser);
     
     
@@ -123,28 +97,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //-----------------------Driver Buttons----------------------------------------------/
     zeroGyro.whenPressed(new InstantCommand(() -> swerve.zeroGyro()));
-<<<<<<< HEAD
-    new JoystickButton(driver, XboxController.Button.kA.value).whileHeld(new TeleopSwerve(swerve, driver, translationAxis, strafeAxis, rotationAxis, false, true));
-    //new JoystickButton(driver, XboxController.Button.kB.value).whileHeld(new TeleopSwerve(swerve, driver, 0, 0, rotationAxis, true, true));
-    new JoystickButton(driver, XboxController.Button.kB.value).whileHeld(new VisionAlignStopCommand(swerve, true,true));
-=======
     new JoystickButton(driver, XboxController.Button.kA.value).whileHeld(new VisionAlignMovingCommand(swerve, driver, translationAxis, strafeAxis, rotationAxis, true, true));
     new JoystickButton(driver, XboxController.Button.kB.value).whileHeld(new TeleopSwerve(swerve, driver, translationAxis, strafeAxis, rotationAxis, false, true));
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 
 
 
 
     //-----------------------Shooter Buttons----------------------------------------------/
-<<<<<<< HEAD
-    new JoystickButton(driver, Button.kLeftBumper.value).whenPressed(new ShooterWallHubCommand(shooter));
-    //new JoystickButton(driver, Button.kRightBumper.value).whenPressed(new ShooterXSpotCommand(shooter));
-    new JoystickButton(driver, Button.kRightBumper.value).whenPressed(new ShooterHubLowerCommand(shooter));
-
-=======
     new JoystickButton(driver, Button.kRightBumper.value).whenPressed(new ShooterXSpotCommand(shooter));
     new JoystickButton(driver, Button.kLeftBumper.value).whenPressed(new ShooterWallHubCommand(shooter));
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
     new AxisTrigger(driver, 3).whenPressed(new ShooterStopCommand(shooter));
     new AxisTrigger(driver, 2).whenPressed(new ShooterStopCommand(shooter));
 
@@ -159,26 +120,17 @@ public class RobotContainer {
     //new JoystickButton(operator, Button.kX.value).whenPressed(new ClimberMotorStopCommand(motors));
 
     //basic up and down movement that is manual buttons, run by co-driver
-<<<<<<< HEAD
-    new JoystickButton(operator, Button.kLeftStick.value).whileHeld(new ClimberDownManualCommand(motors, pneumatics));
-=======
     new JoystickButton(operator, Button.kY.value).whileHeld(new ClimberDownManualCommand(motors, pneumatics));
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
     new JoystickButton(operator, Button.kRightStick.value).whileHeld(new ClimberUpManualCommand(motors, pneumatics));
     new JoystickButton(operator, Button.kStart.value).whenPressed(new PancakeInCommand(pneumatics));
     new JoystickButton(operator, Button.kBack.value).whenPressed(new PancakeOutCommand(pneumatics));
 
-<<<<<<< HEAD
-
-    //driver gets the pison command for now 
-=======
     //----------------------Test Auto Climb Buttons--------------------------------------------/
     //new JoystickButton(operator, Button.kA.value).whenPressed(new ClimberPositionCommand(motors, 83000));//165000, 93000, 89000,78000L
     //new JoystickButton(operator, Button.kB.value).whenPressed(new ClimberPositionCommand(motors, -650.0));
     //new JoystickButton(operator, Button.kY.value).whenPressed(new ClimberInitEncCommand(motors));
   
     //driver gets the pison command for n000ow 
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
     new JoystickButton(driver, Button.kBack.value).whenPressed(new AngleClimbCommand(pneumatics));
 
 

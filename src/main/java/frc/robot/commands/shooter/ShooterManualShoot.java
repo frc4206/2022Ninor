@@ -31,10 +31,6 @@ public class ShooterManualShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_shoot.shooter_stop();
-<<<<<<< HEAD
-
-=======
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
   }
 
   // Returns true when the command should end.

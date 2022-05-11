@@ -25,23 +25,11 @@ public class ShooterStopCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-<<<<<<< HEAD
-    motors.ledColor1();
-
-=======
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
   }
 
   // Called once the command ends or is interrupted.
   @Override
-<<<<<<< HEAD
-  public void end(boolean interrupted) {
-    motors.ledColor2();
-
-  }
-=======
   public void end(boolean interrupted) {}
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 
   // Returns true when the command should end.
   @Override

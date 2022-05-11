@@ -4,10 +4,6 @@
 
 package frc.robot.subsystems;
 
-<<<<<<< HEAD
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-=======
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,14 +14,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class ShooterSubsystem extends SubsystemBase {
-<<<<<<< HEAD
-  private WPI_TalonFX shooterUpper = new WPI_TalonFX(Constants.MotorsIDs.shooterUpperMotor, Constants.Canivore1);
-  private WPI_TalonFX shooterLower = new WPI_TalonFX(Constants.MotorsIDs.shooterLowerMotor, Constants.Canivore1);
-  private Spark blinkinLED = new Spark(3);
-=======
   private WPI_TalonFX shooterUpper = new WPI_TalonFX(Constants.MotorsIDs.shooterUpperMotor);
   private WPI_TalonFX shooterLower = new WPI_TalonFX(Constants.MotorsIDs.shooterLowerMotor);
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 
   private double velocitysetHighXSpot = 0.0;
   private double velocitysetLowXSpot = 0.0;
@@ -33,21 +23,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private double velocitysetHighWallHub = 0.0;
   private double velocitysetLowWallHub = 0.0;
 
-<<<<<<< HEAD
-  private double velocitysetHighWallHubSemiplus = 0.0;
-  private double velocitysetLowWallHubSemiplus = 0.0;
-
   private double velocitysetHighWallHubplus = 0.0;
   private double velocitysetLowWallHubplus = 0.0;
 
-  private double velocitysetHighWallLowHub = 0.0;
-  private double velocitysetLowWallLowHub = 0.0;
-
-=======
-  private double velocitysetHighWallHubplus = 0.0;
-  private double velocitysetLowWallHubplus = 0.0;
-
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 
 
   private boolean shooterAtSpeed = false;
@@ -65,13 +43,8 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterLower.configFactoryDefault();
     shooterUpper.set(ControlMode.PercentOutput, 0.0);
     shooterLower.set(ControlMode.PercentOutput, 0.0);
-<<<<<<< HEAD
-    shooterLower.setInverted(true);
-    shooterUpper.setInverted(false);
-=======
     shooterLower.setInverted(false);
     shooterUpper.setInverted(true);
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
     shooterUpper.setNeutralMode(NeutralMode.Coast);
     shooterLower.setNeutralMode(NeutralMode.Coast);
    
@@ -143,19 +116,6 @@ public class ShooterSubsystem extends SubsystemBase {
     velocitysetLowWallHubplus = GlobalVariables.LowerVelocitySetWallHubplus;
   }
 
-<<<<<<< HEAD
-  public void shooterSetPowerWallHighSemiPlus() {
-    velocitysetHighWallHubSemiplus = GlobalVariables.UpperVelocitySetWallHubsemiplus;
-    velocitysetLowWallHubSemiplus = GlobalVariables.LowerVelocitySetWallHubsemiplus;
-  }
-  
-  public void shooterSetPowerWallLow() {
-    velocitysetHighWallLowHub = GlobalVariables.UpperVelocitySetWallLow;
-    velocitysetLowWallLowHub = GlobalVariables.LowerVelocitySetWallLow;
-  }
-
-=======
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 
   //shooting coomads
   public void shooterXSpotHub() {
@@ -173,19 +133,6 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterLower.set(ControlMode.Velocity, velocitysetLowWallHubplus);
   }
 
-<<<<<<< HEAD
-  public void shooterWallHighSemiPlus() {
-    shooterUpper.set(ControlMode.Velocity, velocitysetHighWallHubSemiplus);
-    shooterLower.set(ControlMode.Velocity, velocitysetLowWallHubSemiplus);
-  }
-
-  public void shooterWallLow() {
-    shooterUpper.set(ControlMode.Velocity, velocitysetHighWallLowHub);
-    shooterLower.set(ControlMode.Velocity, velocitysetLowWallLowHub);
-  }
-
-=======
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
   public void shooter_stop() {
     shooterUpper.set(ControlMode.PercentOutput, 0.0);
     shooterLower.set(ControlMode.PercentOutput, 0.0);
@@ -201,18 +148,6 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterLower.setSelectedSensorPosition(0, 0, 30);
   }
 
-<<<<<<< HEAD
-  public void ledColor1(){
-    blinkinLED.set(0.85);//-0.09blue flash
-                          //-0.51ocean pattern blue
-  }
-
-  public void ledColor2(){
-    blinkinLED.set(0.73);
-  }
-
-=======
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
     @Override
   public void periodic() {
     // This method will be called once per scheduler run

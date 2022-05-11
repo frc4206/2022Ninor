@@ -8,10 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HarvestorSubsystem;
 
 public class HarvestorStopCommand extends CommandBase {
-<<<<<<< HEAD
-=======
   private double startmotortime;
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
   HarvestorSubsystem m_harvestor;
   public HarvestorStopCommand(HarvestorSubsystem harvestor) {
      m_harvestor = harvestor ;

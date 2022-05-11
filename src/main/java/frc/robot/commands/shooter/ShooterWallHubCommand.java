@@ -28,26 +28,18 @@ public class ShooterWallHubCommand extends CommandBase {
   @Override
   public void execute() {
 
-<<<<<<< HEAD
-    motors.ledColor1();
-
-=======
     if(motors.getShooterVelo()>8050){
       Robot.getRobotContainer().setRumble();
     }
     else{
       Robot.getRobotContainer().offRumble();
     }
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-<<<<<<< HEAD
-=======
     Robot.getRobotContainer().offRumble();
->>>>>>> 6071e81e5e5ff658c96a85cc3f9d81964ea001ec
 
   }
 
